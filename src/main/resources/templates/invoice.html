@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Facturas - Chinook</title>
+</head>
+<body>
+    <h1>Registrar factura</h1>
+ 
+    <form th:action="@{/invoice}" th:object="${header}" method="post">
+        <label>ID Factura: <input type="number" th:field="*{invoiceId}" required></label><br>
+        <label>ID Cliente: <input type="number" th:field="*{customerId}" required></label><br>
+        <label>Fecha: <input type="date" th:field="*{invoiceDate}" required></label><br>
+        <label>Dirección: <input type="text" th:field="*{billingAddress}"></label><br>
+        <label>Ciudad: <input type="text" th:field="*{billingCity}"></label><br>
+        <label>Estado/Región: <input type="text" th:field="*{billingState}"></label><br>
+        <label>País: <input type="text" th:field="*{billingCountry}"></label><br>
+        <label>Código Postal: <input type="text" th:field="*{billingPostalCode}"></label><br>
+        <label>Total: <input type="number" step="0.01" th:field="*{total}" required></label><br>
+ 
+        <h3>Detalle (una línea de ejemplo)</h3>
+        <label>Track ID: <input type="number" name="trackIds" required></label><br>
+        <label>Precio unitario: <input type="number" step="0.01" name="unitPrices" required></label><br>
+        <label>Cantidad: <input type="number" name="quantities" required></label><br>
+ 
+        <button type="submit">Registrar</button>
+    </form>
+ 
+    <p th:if="${param.success}">Factura registrada correctamente.</p>
+ 
+    <script>
+        const evtSource = new EventSource("/events");
+        evtSource.addEventListener("server-down", (e) => {
+            alert("⚠ " + e.data);
+        });
+        evtSource.addEventListener("server-up", (e) => {
+            alert("✅ " + e.data);
+        });
+    </script>
+</body>
+</html>
